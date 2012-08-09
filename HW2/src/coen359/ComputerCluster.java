@@ -9,6 +9,7 @@ public class ComputerCluster implements LabResources {
 
 	private String resourceId;
 	private String supervisor;
+	private boolean status = true;
 
 	@Override
 	public double costOfmaintenance() {
@@ -19,16 +20,10 @@ public class ComputerCluster implements LabResources {
 
 		while (enumeration.hasMoreElements()) {
 			LabResources element = enumeration.nextElement();
-			if (element instanceof IndividualResource) {
 
-				if (((IndividualResource) element).isStatus())
-					totalCost = totalCost
-							+ ((IndividualResource) element)
-									.costOfmaintenance();
-			} else
-				totalCost = totalCost
-						+ ((ComputerCluster) element).costOfmaintenance();
-		};
+			totalCost = totalCost + element.costOfmaintenance();
+		}
+		;
 		return totalCost;
 	}
 
@@ -37,9 +32,9 @@ public class ComputerCluster implements LabResources {
 		return LabResourceVector.elements();
 	}
 
-	@Override
-	public ComputerCluster getComputerCluster() {
-		// TODO Auto-generated method stub
+	
+	public LabResources getChild() {
+		
 		return this;
 	}
 
@@ -48,15 +43,13 @@ public class ComputerCluster implements LabResources {
 		Enumeration<LabResources> enu = components();
 		while (enu.hasMoreElements()) {
 			LabResources element = enu.nextElement();
-			if (element instanceof IndividualResource)
-				((IndividualResource) element).setSupervisor(supervisor);
+			element.setSupervisor(supervisor);
 
 		}
 	}
 
 	public void remove(LabResources component) {
-		if (component instanceof IndividualResource)
-			((IndividualResource) component).setInactive();
+		component.setInactive();
 
 	}
 
@@ -83,13 +76,11 @@ public class ComputerCluster implements LabResources {
 		Enumeration<LabResources> enu = components();
 		while (enu.hasMoreElements()) {
 			LabResources element = enu.nextElement();
-			if (element instanceof IndividualResource) {
-				if (((IndividualResource) element).getResourceId()
-						.equalsIgnoreCase(resourceId))
-					((IndividualResource) element).setInactive();
-			} else {
-				((ComputerCluster) element).setInactive(resourceId);
-			}
+			if (((IndividualResource) element).getResourceId()
+					.equalsIgnoreCase(resourceId))
+				((IndividualResource) element).setInactive();
+
+			//
 		}
 
 	}
@@ -102,15 +93,8 @@ public class ComputerCluster implements LabResources {
 		Enumeration<LabResources> enu = components();
 		while (enu.hasMoreElements()) {
 			LabResources element = enu.nextElement();
+			element.showResourceDetails();
 
-			if (element instanceof IndividualResource) {
-				if (((IndividualResource) element).isStatus())
-					((IndividualResource) element).showResourceDetails();
-
-			}
-
-			else
-				((ComputerCluster) element).showResourceDetails();
 		}
 	}
 
@@ -142,6 +126,12 @@ public class ComputerCluster implements LabResources {
 	 */
 	public void setSupervisor(String supervisor) {
 		this.supervisor = supervisor;
+
+	}
+
+	@Override
+	public void setInactive() {
+		this.status = false;
 
 	}
 }

@@ -2,7 +2,9 @@ package coen359;
 
 public interface LabResources {
 	
-	ComputerCluster getComputerCluster();
 	double costOfmaintenance();
+	void showResourceDetails();
+	void setSupervisor(String supervisor);
+	void setInactive();
 
 }

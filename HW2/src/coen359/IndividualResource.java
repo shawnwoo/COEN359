@@ -4,20 +4,23 @@ public abstract class IndividualResource implements LabResources {
 
 	private String resourceId;
 	private int modelyear;
-	private boolean status=true;
+	private boolean status = true;
 	private String supervisor;
 	private double costOfMaintain;
 
-	public abstract ComputerCluster getComputerCluster();
-	
+
+
 	public double costOfmaintenance() {
 		// TODO Auto-generated method stub
-		return this.getCostOfMaintain();
+		if (this.status) {
+			return this.getCostOfMaintain();
+		} else
+			return 0;
 	}
 
-
-	/** 
+	/**
 	 * check if the model year of this resource is older than parameter
+	 * 
 	 * @param year
 	 * @return
 	 */
@@ -28,22 +31,27 @@ public abstract class IndividualResource implements LabResources {
 			return false;
 
 	};
-/**
- * Display resource informaiton in the console
- */
+
+	/**
+	 * Display resource informaiton in the console
+	 */
 	public void showResourceDetails() {
-		System.out.println("Individual Resource informaiton: ");
-		System.out.println("Resource ID: " + this.getResourceId());
-		System.out.println("Supervisor: " + this.getSupervisor());
-		System.out.println("Model Year: " + this.getModelyear());
 
 		if (this.isStatus()) {
+			System.out.println("Individual Resource informaiton: ");
+			System.out.println("Resource ID: " + this.getResourceId());
+			System.out.println("Supervisor: " + this.getSupervisor());
+			System.out.println("Model Year: " + this.getModelyear());
 			System.out.println("Status is : Active");
-		} else {
-			System.out.println("Status is : Inactive");
+			System.out.println("*************************");
 		}
-		;
-		System.out.println("*************************");
+		// if (this.isStatus()) {
+		// System.out.println("Status is : Active");
+		// } else {
+		// System.out.println("Status is : Inactive");
+		// }
+		// ;
+
 	}
 
 	public void setInactive() {
